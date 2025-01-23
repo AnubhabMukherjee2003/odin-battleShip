@@ -47,7 +47,9 @@ body {
     min-width: 300px;
     max-width: 500px;
     text-align: center;
+    position: relative;
 }
+
 
 .board-container h3 {
     font-size: 1.5rem;
@@ -108,10 +110,29 @@ body {
     animation: hit 0.5s ease;
 }
 
+.cell.hit::after {
+    content: '💥';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+}
+
 .cell.miss {
     background-color: var(--color-miss);
     border-color: var(--color-miss);
     animation: miss 0.5s ease;
+}
+
+.cell.miss::after {
+    content: '•';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    opacity: 0.5;
 }
 
 @keyframes hit {
@@ -189,4 +210,10 @@ body {
     .cell {
         font-size: 0.8rem;
     }
+}
+
+/* Add visual feedback for disabled board */
+.board[style*="pointer-events: none"] {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
 }
