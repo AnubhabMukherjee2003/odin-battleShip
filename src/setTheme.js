@@ -1,8 +1,6 @@
-function setTheme(e) {
-    const root = document.documentElement;
-    const newTheme = root.className === 'dark' ? 'light' : 'dark';
-    root.className = newTheme;
+export function setTheme() {
+    const currentTheme = document.documentElement.className;
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.className = newTheme;
     localStorage.setItem('theme', newTheme);
 }
-
-export { setTheme };

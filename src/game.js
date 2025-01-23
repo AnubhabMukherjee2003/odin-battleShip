@@ -20,15 +20,19 @@ function game() {
   }
 
   function placeRandomShips(player) {
-    const shipLengths = [1, 1, 1, 1, 1];
+    const shipLengths = [1,1, 1, 1, 1];
+    let attempts = 0;
+    const maxAttempts = 100;
+
     shipLengths.forEach((length) => {
-      let row, col;
-      do {
-        row = Math.floor(Math.random() * player.gameboard.board.length);
-        col = Math.floor(Math.random() * player.gameboard.board[0].length);
-      } while (
-        !player.gameboard.placeShip(Ship(length), getRandomPositions(length))
-      );
+        attempts = 0;
+        while (attempts < maxAttempts) {
+            const positions = getRandomPositions(length);
+            if (player.gameboard.placeShip(Ship(length), positions)) {
+                break;
+            }
+            attempts++;
+        }
     });
   }
 

@@ -80,9 +80,14 @@ function createDisplay() {
 
     function computerTurn() {
         let rowAttack, colAttack;
+        let attempts = 0;
+        const maxAttempts = 25; 
+
         do {
+            if (attempts >= maxAttempts) return; 
             rowAttack = Math.floor(Math.random() * 5);
             colAttack = Math.floor(Math.random() * 5);
+            attempts++;
         } while (
             playerRef.gameboard.board[rowAttack][colAttack] === "hit" ||
             playerRef.gameboard.board[rowAttack][colAttack] === "miss"
@@ -91,7 +96,7 @@ function createDisplay() {
         const cell = playerBoard.querySelector(`[data-row="${rowAttack}"][data-col="${colAttack}"]`);
         if (playerRef.gameboard.receiveAttack(rowAttack, colAttack)) {
             cell.classList.add("hit");
-            updateGameStatus('Computer hit your ship!');
+            updateGameStatus('Computer hit your ship! Again its turn');
             if (playerRef.gameboard.allSunk()) {
                 updateGameStatus("Computer wins! Click Reset to play again.");
                 disableBoard();
@@ -103,6 +108,7 @@ function createDisplay() {
         } else {
             cell.classList.add("miss");
             updateGameStatus('Computer missed! Your turn.');
+            enableBoard();
         }
     }
 
@@ -118,7 +124,7 @@ function createDisplay() {
         initializeRefs(player, computer);
         renderBoard(player);
         renderBoard(computer);
-        updateGameStatus("Your turn! Click on the computer's board to attack.");
+        updateGameStatus("Your turn! Click on the computer's board to attack, There are 5 ships of length 1.");
     }
 
     return {
