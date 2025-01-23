@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark light">
-    <title>Webpack-template</title>
+    <title>Battleship</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button class="theme-toggle" aria-label="Toggle theme">🌓</button>
-    <!-- <img src="./dark-theme.jpg" alt="Random image"> -->
+    <div class="game-container">
+        <div class="board-container">
+            <h3>Player Board</h3>
+            <div class="player-board board"></div>
+        </div>
+        <div class="board-container">
+            <h3>Computer Board</h3>
+            <div class="computer-board board"></div>
+        </div>
+    </div>
+    <div class="game-status">Place your ships to start the game.</div>
+    <button class="theme-toggle">🌓</button>
+    <!-- <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+    <script type="module" src="index.js"></script> -->
 </body>
 </html>
