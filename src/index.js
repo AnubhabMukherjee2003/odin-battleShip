@@ -13,6 +13,6 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
 });
 initializeTheme();
 
-import { game } from "./game.js";
 
+import { game } from "./game.js";
 game().initializeGame();

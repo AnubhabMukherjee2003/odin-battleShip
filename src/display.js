@@ -23,10 +23,6 @@ function createDisplay() {
         
         displayBoard.innerHTML = '';
         
-        if (!player.isComputerPlayer) {
-            container.classList.add('active');
-        }
-
         player.gameboard.board.forEach((row, i) => {
             row.forEach((cell, j) => {
                 const cellDiv = document.createElement("div");
@@ -62,6 +58,7 @@ function createDisplay() {
             updateGameStatus('Hit! Your turn again.');
             if (computerRef.gameboard.allSunk()) {
                 updateGameStatus("You win! Click Reset to play again.");
+                alert('You win! Click Reset to play again')
                 disableBoard();
                 return;
             }
@@ -79,32 +76,34 @@ function createDisplay() {
     }
 
     function computerTurn() {
-        let rowAttack, colAttack;
-        let attempts = 0;
-        const maxAttempts = 25; 
-
-        do {
-            if (attempts >= maxAttempts) return; 
-            rowAttack = Math.floor(Math.random() * 5);
-            colAttack = Math.floor(Math.random() * 5);
-            attempts++;
-        } while (
-            playerRef.gameboard.board[rowAttack][colAttack] === "hit" ||
-            playerRef.gameboard.board[rowAttack][colAttack] === "miss"
-        );
-
-        const cell = playerBoard.querySelector(`[data-row="${rowAttack}"][data-col="${colAttack}"]`);
-        if (playerRef.gameboard.receiveAttack(rowAttack, colAttack)) {
+        const availableMoves = [];
+        
+        // Get all valid moves
+        for(let i = 0; i < 5; i++) {
+            for(let j = 0; j < 5; j++) {
+                if (playerRef.gameboard.board[i][j] !== "hit" && 
+                    playerRef.gameboard.board[i][j] !== "miss") {
+                    availableMoves.push({row: i, col: j});
+                }
+            }
+        }
+        
+        if (availableMoves.length === 0) return;
+        
+        const moveIndex = Math.floor(Math.random() * availableMoves.length);
+        const {row, col} = availableMoves[moveIndex];
+        
+        const cell = playerBoard.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+        if (playerRef.gameboard.receiveAttack(row, col)) {
             cell.classList.add("hit");
-            updateGameStatus('Computer hit your ship! Again its turn');
+            updateGameStatus('Computer hit your ship!');
             if (playerRef.gameboard.allSunk()) {
                 updateGameStatus("Computer wins! Click Reset to play again.");
+                alert('Computer wins! Click Reset to play again.')
                 disableBoard();
                 return;
             }
-            setTimeout(() => {
-                computerTurn();
-            }, 1000);
+            setTimeout(computerTurn, 1000);
         } else {
             cell.classList.add("miss");
             updateGameStatus('Computer missed! Your turn.');

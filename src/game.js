@@ -37,16 +37,34 @@ function game() {
   }
 
   function getRandomPositions(length) {
-    const horizontal = Math.random() < 0.5;
-    const row = Math.floor(Math.random() * 5);
-    const col = Math.floor(Math.random() * 5);
-    if (horizontal && col + length <= 5) {
-      return Array.from({ length }, (_, i) => ({ row, col: col + i }));
+    let attempts = 0;
+    const maxAttempts = 100;
+    
+    while (attempts < maxAttempts) {
+        const horizontal = Math.random() < 0.5;
+        const row = Math.floor(Math.random() * 5);
+        const col = Math.floor(Math.random() * 5);
+        
+        const positions = [];
+        let valid = true;
+        
+        for (let i = 0; i < length; i++) {
+            const pos = {
+                row: horizontal ? row : row + i,
+                col: horizontal ? col + i : col
+            };
+            
+            if (pos.row >= 5 || pos.col >= 5) {
+                valid = false;
+                break;
+            }
+            positions.push(pos);
+        }
+        
+        if (valid) return positions;
+        attempts++;
     }
-    if (!horizontal && row + length <= 5) {
-      return Array.from({ length }, (_, i) => ({ row: row + i, col }));
-    }
-    return getRandomPositions(length);
+    return getRandomPositions(length); // Last resort recursion
   }
 
   return { initializeGame };

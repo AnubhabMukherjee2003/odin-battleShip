@@ -16,7 +16,9 @@ function Ship(length) {
 }
 
 function Gameboard() {
-    const board = Array.from({ length: 5 }, () => Array(5).fill(null));
+    // Ensure board is consistently 5x5
+    const BOARD_SIZE = 5;
+    const board = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(null));
     const ships = [];
     const missedAttacks = [];
     const isValidPlacement = (positions) => {
